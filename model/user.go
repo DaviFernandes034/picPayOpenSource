@@ -1,7 +1,7 @@
-package main
+package model
 
 
-type user struct {
+type User struct {
 
 	Name string
 	LastName string
