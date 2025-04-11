@@ -11,3 +11,4 @@ type User struct {
 	Balance float64
 	UserType string
 }
+
