@@ -1,16 +1,18 @@
 package main
 
 import (
+	"desafio-pic-pay-open-source/controller"
 	"desafio-pic-pay-open-source/repository"
-	"github.com/gin-gonic/gin"
 	"desafio-pic-pay-open-source/service"
-	
+
+	"github.com/gin-gonic/gin"
+
 	"log"
 )
 
 func main(){
 
-	router:= gin.Default()
+	Router:= gin.Default()
 
 	db, err:= repository.Init()
 	if err != nil {
@@ -29,23 +31,33 @@ func main(){
 	ts:= service.TransactionService{ //services de transaction
 		TransactionRepository: rt,
 	}
+	//controller User
 
+	uc:= controller.UserController{
+		UserService: us,
+	}
 
 
 	//criação da tabela de usuarios
-	err = us.CreateTableUsers(db)
+	err = us.CreateTableUsers()
 	if err != nil {
 
 		log.Fatal(err)
 	}
 	//criaçao da tabela de trasnferencia
-	err = ts.CreateTableTransaction(db)
+	err = ts.CreateTableTransaction()
 	if err != nil{
 		log.Fatal(err)
 	}
 
 
+	Router.POST("/create", uc.CreateUser())
+	Router.GET("/AllUsers", uc.GetUserAll())
+	
+		
 
-	router.Run(":8080")
+
+	Router.Run(":8080")
 
 }
+
