@@ -1,7 +1,7 @@
 package service
 
 import (
-	"database/sql"
+	
 	"desafio-pic-pay-open-source/model"
 	"desafio-pic-pay-open-source/repository"
 	"errors"
@@ -13,9 +13,10 @@ type UserService struct {
 
 	UserRepository repository.UserRepository
 
+
 }
 
-func validateTransaction(user model.User, amount float64) error {
+func (u *UserService) ValidateTransaction(user model.User, amount float64) error {
 
 	if (user.UserType == "lojista"){
 
@@ -36,21 +37,32 @@ func (us *UserService) FindUserById(id int){
 	us.UserRepository.FindUserById(id)
 }
 
-func (us *UserService) Save(model model.User){
+func (us *UserService) AllUsers(){
 
-	us.UserRepository.Save(model)
+	us.UserRepository.UserAll()
 }
 
-func (us *UserService) CreateTableUsers(db *sql.DB)error{
+func (us *UserService) CreateTableUsers()error{
 
-	db.Exec("PRAGMA foreign_keys = ON")
-	err:= us.UserRepository.CriaTabelaUser(db)
+	
+	err:= us.UserRepository.CriaTabelaUser()
 	if err != nil {
 
 		return fmt.Errorf("erro: %v",err.Error())
 		
 	}
 
+
+	return nil
+}
+
+func (us *UserService) CreateUser(model model.UserDTO)error{
+
+	err := us.UserRepository.Create(model)
+	if err != nil {
+
+		return fmt.Errorf("%s", err.Error())
+	}
 
 	return nil
 }
