@@ -30,11 +30,16 @@ func main(){
 	}
 	ts:= service.TransactionService{ //services de transaction
 		TransactionRepository: rt,
+		Service: us,
 	}
 	//controller User
 
 	uc:= controller.UserController{
 		UserService: us,
+	}
+
+	tc:= controller.TransactionController{
+		TranferController: ts,
 	}
 
 
@@ -53,6 +58,9 @@ func main(){
 
 	Router.POST("/create", uc.CreateUser())
 	Router.GET("/AllUsers", uc.GetUserAll())
+
+	Router.POST("/Transaction", tc.CreateTransfer())
+	Router.GET("/AllTransfer", tc.GetAllTransfer())
 	
 		
 
