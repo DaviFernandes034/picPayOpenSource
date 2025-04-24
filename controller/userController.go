@@ -28,7 +28,7 @@ func (uc *UserController) CreateUser() gin.HandlerFunc {
 		}
 
 		
-		err = uc.UserService.UserRepository.Create(request)
+		err = uc.UserService.CreateUser(request)
 		if err != nil {
 			
 			c.JSON(http.StatusInternalServerError, gin.H{"message": err.Error()})
